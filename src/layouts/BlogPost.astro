@@ -6,81 +6,224 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<'blog'>['data'] & { body?: string };
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, body } = Astro.props;
+
+function readingTime(text: string) {
+	const words = text?.trim().split(/\s+/).length ?? 0;
+	return Math.max(1, Math.round(words / 200));
+}
+const rt = readingTime(body ?? '');
 ---
 
 <html lang="en">
-	<head>
-		<BaseHead title={title} description={description} />
-		<style>
-			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-				margin: 0;
-			}
-			.hero-image {
-				width: 100%;
-			}
-			.hero-image img {
-				display: block;
-				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
-			}
-			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
-			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
-			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
-			}
-			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
-			}
-			.last-updated-on {
-				font-style: italic;
-			}
-		</style>
-	</head>
+<head>
+	<BaseHead title={title} description={description} />
+</head>
+<body>
+	<Header />
 
-	<body>
-		<Header />
-		<main>
-			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
+	<article>
+		<!-- Post hero -->
+		<div class="post-hero">
+			<div class="post-hero-glow" aria-hidden="true"></div>
+			<div class="container--narrow">
+				<div class="post-meta">
+					<FormattedDate date={pubDate} />
+					<span class="meta-sep">·</span>
+					<span>{rt} min read</span>
+					{updatedDate && (
+						<span class="meta-sep">·</span>
+						<span class="updated">Updated <FormattedDate date={updatedDate} /></span>
+					)}
 				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
-						</div>
-						<h1>{title}</h1>
-						<hr />
+				<h1>{title}</h1>
+				<p class="post-desc">{description}</p>
+				<div class="author">
+					<div class="author-avatar" aria-hidden="true">J</div>
+					<div>
+						<div class="author-name">Joseph Liba</div>
+						<div class="author-role">Founder, Interpret AI</div>
 					</div>
-					<slot />
 				</div>
-			</article>
-		</main>
-		<Footer />
-	</body>
+			</div>
+		</div>
+
+		<!-- Hero image -->
+		{heroImage && (
+			<div class="hero-image container--narrow">
+				<Image width={960} height={480} src={heroImage} alt="" />
+			</div>
+		)}
+
+		<!-- Body -->
+		<div class="post-body container--narrow">
+			<div class="prose">
+				<slot />
+			</div>
+
+			<!-- CTA -->
+			<div class="post-cta">
+				<div class="cta-icon" aria-hidden="true">
+					<svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+						<rect width="32" height="32" rx="8" fill="url(#pc)"/>
+						<path d="M9 16a7 7 0 0 1 14 0" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+						<circle cx="16" cy="20" r="2.5" fill="white"/>
+						<defs>
+							<linearGradient id="pc" x1="0" y1="0" x2="32" y2="32">
+								<stop offset="0%" stop-color="#818cf8"/>
+								<stop offset="100%" stop-color="#4f46e5"/>
+							</linearGradient>
+						</defs>
+					</svg>
+				</div>
+				<div class="cta-body">
+					<div class="cta-title">Try Interpret AI for free</div>
+					<div class="cta-sub">Real-time transcription &amp; translation in 70+ languages. 100 free credits, no card required.</div>
+				</div>
+				<a href="https://interpretapp.ai" class="cta-btn">Get started →</a>
+			</div>
+
+			<!-- Back link -->
+			<a href="/blog" class="back-link">
+				<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+					<path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+				Back to all posts
+			</a>
+		</div>
+	</article>
+
+	<Footer />
+</body>
 </html>
+
+<style>
+/* ── Post hero ── */
+.post-hero {
+	position: relative;
+	overflow: hidden;
+	background: var(--slate-900);
+	padding: 5rem 0 4rem;
+	isolation: isolate;
+}
+.post-hero-glow {
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(ellipse 70% 80% at 50% -10%, rgba(99,102,241,0.3) 0%, transparent 70%);
+	z-index: -1;
+}
+.post-hero .container--narrow { position: relative; z-index: 1; }
+.post-meta {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 0.85rem;
+	font-weight: 500;
+	color: #64748b;
+	margin-bottom: 1.25rem;
+}
+.meta-sep { color: #334155; }
+.updated { font-style: italic; }
+.post-hero h1 {
+	color: white;
+	font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+	letter-spacing: -0.03em;
+	line-height: 1.15;
+	margin: 0 0 1rem;
+}
+.post-desc {
+	color: #94a3b8;
+	font-size: 1.1rem;
+	line-height: 1.65;
+	margin: 0 0 2rem;
+	max-width: 600px;
+}
+.author {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+}
+.author-avatar {
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	background: linear-gradient(135deg, #818cf8, #4f46e5);
+	color: white;
+	font-size: 0.9rem;
+	font-weight: 700;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+.author-name  { font-size: 0.875rem; font-weight: 600; color: #e2e8f0; }
+.author-role  { font-size: 0.775rem; color: #64748b; }
+
+/* ── Hero image ── */
+.hero-image {
+	margin: 0 auto;
+	padding: 0 1.5rem;
+}
+.hero-image img {
+	width: 100%;
+	height: auto;
+	border-radius: 0 0 var(--radius) var(--radius);
+	display: block;
+}
+
+/* ── Post body ── */
+.post-body {
+	padding: 3.5rem 1.5rem 2rem;
+}
+
+/* ── CTA block ── */
+.post-cta {
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+	background: linear-gradient(135deg, var(--slate-900) 0%, #1e1b4b 100%);
+	border-radius: var(--radius);
+	padding: 2rem;
+	margin: 3.5rem 0 2rem;
+}
+.cta-icon { flex-shrink: 0; }
+.cta-body { flex: 1; }
+.cta-title { font-size: 1rem; font-weight: 700; color: white; margin-bottom: 0.25rem; }
+.cta-sub   { font-size: 0.85rem; color: #94a3b8; line-height: 1.5; }
+.cta-btn {
+	flex-shrink: 0;
+	background: var(--indigo-500);
+	color: white;
+	font-size: 0.875rem;
+	font-weight: 600;
+	padding: 0.6rem 1.25rem;
+	border-radius: 8px;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: background 0.15s;
+}
+.cta-btn:hover { background: var(--indigo-600); color: white; }
+
+/* ── Back link ── */
+.back-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: var(--slate-500);
+	text-decoration: none;
+	margin-top: 1rem;
+	padding: 0.4rem 0;
+	transition: color 0.15s;
+}
+.back-link:hover { color: var(--slate-900); }
+
+@media (max-width: 640px) {
+	.post-hero { padding: 3.5rem 0 3rem; }
+	.post-cta { flex-direction: column; align-items: flex-start; gap: 1rem; }
+	.cta-btn { width: 100%; text-align: center; }
+}
+</style>

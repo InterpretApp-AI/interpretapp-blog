@@ -1,114 +1,279 @@
 ---
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+function readingTime(body: string) {
+	const words = body.trim().split(/\s+/).length;
+	return Math.max(1, Math.round(words / 200));
+}
+
+const tags: Record<string, string> = {
+	'hear-the-conversation': 'Product',
+	'why-interpret-ai': 'Comparison',
+	'how-to-live-translate': 'Tutorial',
+};
+
+function getTag(id: string) {
+	for (const [key, label] of Object.entries(tags)) {
+		if (id.includes(key)) return label;
+	}
+	return 'Blog';
+}
+
+const tagColors: Record<string, string> = {
+	Product:    'tag-product',
+	Comparison: 'tag-compare',
+	Tutorial:   'tag-tutorial',
+	Blog:       'tag-default',
+};
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
-			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main>
-		<Footer />
-	</body>
+<head>
+	<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+</head>
+<body>
+	<Header />
+
+	<section class="hero">
+		<div class="container">
+			<div class="hero-eyebrow">
+				<span class="dot"></span>
+				Insights &amp; Updates
+			</div>
+			<h1>The Interpret AI Blog</h1>
+			<p class="hero-sub">
+				Deep dives on real-time transcription, live translation,<br class="br-hide"/>
+				and the future of accessible communication.
+			</p>
+		</div>
+		<div class="hero-glow" aria-hidden="true"></div>
+	</section>
+
+	<main class="container">
+		<div class="posts-header">
+			<h2 class="section-label">All Posts</h2>
+			<span class="post-count">{posts.length} articles</span>
+		</div>
+
+		<ul class="post-grid">
+			{posts.map((post, i) => {
+				const tag = getTag(post.id);
+				const rt = readingTime(post.body ?? '');
+				return (
+					<li class:list={['post-card', i === 0 ? 'post-card--featured' : '']}>
+						<a href={`/blog/${post.id}/`} class="card-inner">
+							<div class="card-top">
+								<span class:list={['tag', tagColors[tag]]}>{tag}</span>
+								{i === 0 && <span class="tag tag-new">Latest</span>}
+							</div>
+							<h3 class="card-title">{post.data.title}</h3>
+							<p class="card-desc">{post.data.description}</p>
+							<div class="card-meta">
+								<FormattedDate date={post.data.pubDate} />
+								<span class="meta-dot">·</span>
+								<span>{rt} min read</span>
+							</div>
+						</a>
+					</li>
+				);
+			})}
+		</ul>
+	</main>
+
+	<Footer />
+</body>
 </html>
+
+<style>
+/* ── Hero ── */
+.hero {
+	position: relative;
+	overflow: hidden;
+	background: var(--slate-900);
+	padding: 6rem 0 5rem;
+	text-align: center;
+	isolation: isolate;
+}
+.hero-glow {
+	position: absolute;
+	inset: 0;
+	background:
+		radial-gradient(ellipse 60% 50% at 50% 0%, rgba(99,102,241,0.35) 0%, transparent 70%),
+		radial-gradient(ellipse 40% 40% at 80% 80%, rgba(139,92,246,0.2) 0%, transparent 60%);
+	z-index: -1;
+}
+.hero .container { position: relative; z-index: 1; }
+.hero-eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 0.8rem;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--indigo-100);
+	margin-bottom: 1.5rem;
+	opacity: 0.8;
+}
+.dot {
+	width: 6px; height: 6px;
+	border-radius: 50%;
+	background: #a5b4fc;
+	animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+	0%, 100% { opacity: 1; transform: scale(1); }
+	50% { opacity: 0.5; transform: scale(0.8); }
+}
+.hero h1 {
+	color: white;
+	font-size: clamp(2.2rem, 6vw, 3.5rem);
+	letter-spacing: -0.03em;
+	margin: 0 0 1rem;
+}
+.hero-sub {
+	color: #94a3b8;
+	font-size: 1.1rem;
+	line-height: 1.7;
+	max-width: 520px;
+	margin: 0 auto;
+}
+.br-hide { display: none; }
+@media (min-width: 640px) { .br-hide { display: inline; } }
+
+/* ── Post grid ── */
+main { padding: 4rem 1.5rem 2rem; }
+.posts-header {
+	display: flex;
+	align-items: baseline;
+	gap: 0.75rem;
+	margin-bottom: 2rem;
+}
+.section-label {
+	font-size: 1rem;
+	font-weight: 700;
+	color: var(--slate-900);
+	margin: 0;
+	letter-spacing: -0.01em;
+}
+.post-count {
+	font-size: 0.8rem;
+	color: var(--slate-400);
+	font-weight: 500;
+}
+.post-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1.25rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.post-card--featured {
+	grid-column: 1 / -1;
+}
+
+/* ── Card ── */
+.card-inner {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	padding: 1.75rem;
+	background: white;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	text-decoration: none;
+	transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+	color: inherit;
+}
+.card-inner:hover {
+	border-color: var(--indigo-500);
+	box-shadow: var(--shadow);
+	transform: translateY(-2px);
+}
+.post-card--featured .card-inner {
+	flex-direction: row;
+	align-items: flex-start;
+	gap: 3rem;
+	background: linear-gradient(135deg, var(--slate-900) 0%, #1e1b4b 100%);
+	border-color: transparent;
+	padding: 2.5rem;
+}
+.post-card--featured .card-title { color: white; font-size: 1.65rem; }
+.post-card--featured .card-desc  { color: #94a3b8; }
+.post-card--featured .card-meta  { color: #64748b; }
+.post-card--featured .card-top   { margin-bottom: 1rem; }
+.post-card--featured .card-inner:hover {
+	border-color: transparent;
+	box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+}
+.card-top {
+	display: flex;
+	gap: 0.4rem;
+	margin-bottom: 0.85rem;
+}
+.post-card--featured .card-body { flex: 1; }
+
+/* Tags */
+.tag {
+	display: inline-block;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	padding: 0.25em 0.7em;
+	border-radius: 99px;
+}
+.tag-product  { background: #ede9fe; color: #5b21b6; }
+.tag-compare  { background: #fce7f3; color: #9d174d; }
+.tag-tutorial { background: #d1fae5; color: #065f46; }
+.tag-default  { background: var(--slate-100); color: var(--slate-600); }
+.tag-new      { background: #fef9c3; color: #854d0e; }
+
+.card-title {
+	font-size: 1.05rem;
+	font-weight: 700;
+	color: var(--slate-900);
+	line-height: 1.35;
+	margin: 0 0 0.6rem;
+	letter-spacing: -0.01em;
+	flex: 1;
+}
+.card-desc {
+	font-size: 0.875rem;
+	color: var(--slate-500);
+	line-height: 1.6;
+	margin: 0 0 1.25rem;
+	flex: 1;
+}
+.card-meta {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	font-size: 0.8rem;
+	color: var(--slate-400);
+	font-weight: 500;
+	margin-top: auto;
+}
+.meta-dot { color: var(--slate-300); }
+
+@media (max-width: 900px) {
+	.post-grid { grid-template-columns: repeat(2, 1fr); }
+	.post-card--featured { grid-column: 1 / -1; }
+	.post-card--featured .card-inner { flex-direction: column; gap: 0; }
+}
+@media (max-width: 580px) {
+	.post-grid { grid-template-columns: 1fr; }
+	.hero { padding: 4rem 0 3.5rem; }
+}
+</style>

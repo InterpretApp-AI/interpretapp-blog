@@ -1,76 +1,127 @@
 ---
-import HeaderLink from './HeaderLink.astro';
+const pathname = Astro.url.pathname;
+const isPost = pathname.split('/').filter(Boolean).length > 2;
 ---
 
 <header>
-	<nav>
-		<a href="https://interpretapp.ai" class="brand">
-			<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-				<circle cx="12" cy="12" r="12" fill="#6366f1"/>
-				<path d="M7 12a5 5 0 0 1 10 0" stroke="white" stroke-width="2" stroke-linecap="round"/>
-				<circle cx="12" cy="15" r="2" fill="white"/>
+	<div class="container">
+		<a href="https://interpretapp.ai" class="brand" aria-label="Interpret AI home">
+			<svg class="logo" width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+				<rect width="32" height="32" rx="8" fill="url(#grad)"/>
+				<path d="M9 16a7 7 0 0 1 14 0" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+				<circle cx="16" cy="20" r="2.5" fill="white"/>
+				<defs>
+					<linearGradient id="grad" x1="0" y1="0" x2="32" y2="32">
+						<stop offset="0%" stop-color="#818cf8"/>
+						<stop offset="100%" stop-color="#4f46e5"/>
+					</linearGradient>
+				</defs>
 			</svg>
-			Interpret AI
+			<span class="brand-text">Interpret AI</span>
+			<span class="brand-divider">/</span>
+			<span class="brand-sub">Blog</span>
 		</a>
-		<div class="internal-links">
-			<HeaderLink href="/blog">Blog</HeaderLink>
-			<a href="https://interpretapp.ai" class="cta-link">Back to App →</a>
-		</div>
-	</nav>
+
+		<nav>
+			{isPost && (
+				<a href="/blog" class="nav-link back">
+					<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+						<path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
+					All posts
+				</a>
+			)}
+			<a href="https://interpretapp.ai" class="btn-cta">
+				Try for free
+				<svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+					<path d="M2.5 7h9M7.5 3.5L11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</a>
+		</nav>
+	</div>
 </header>
 
 <style>
 	header {
-		margin: 0;
-		padding: 0 1.5em;
-		background: white;
-		box-shadow: 0 1px 0 rgba(0,0,0,0.08);
+		position: sticky;
+		top: 0;
+		z-index: 100;
+		background: rgba(255, 255, 255, 0.85);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border-bottom: 1px solid var(--border);
 	}
-	nav {
+	.container {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		max-width: 960px;
-		margin: 0 auto;
+		height: 60px;
 	}
 	.brand {
 		display: flex;
 		align-items: center;
-		gap: 0.5em;
-		font-weight: 700;
-		font-size: 1.1em;
-		color: #1e1b4b;
+		gap: 0.5rem;
 		text-decoration: none;
-		padding: 1em 0;
+		color: var(--slate-900);
 	}
-	.brand:hover {
-		color: #6366f1;
+	.logo { flex-shrink: 0; }
+	.brand-text {
+		font-weight: 700;
+		font-size: 0.95rem;
+		letter-spacing: -0.01em;
+		color: var(--slate-900);
 	}
-	.internal-links {
+	.brand-divider {
+		color: var(--slate-400);
+		font-weight: 300;
+		font-size: 1.1rem;
+		margin: 0 0.1rem;
+	}
+	.brand-sub {
+		font-size: 0.95rem;
+		font-weight: 500;
+		color: var(--slate-500);
+	}
+	nav {
 		display: flex;
 		align-items: center;
-		gap: 0.5em;
+		gap: 0.75rem;
 	}
-	nav a {
-		padding: 1em 0.5em;
-		color: #4b5563;
-		border-bottom: 2px solid transparent;
+	.nav-link {
+		display: flex;
+		align-items: center;
+		gap: 0.3rem;
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: var(--slate-500);
 		text-decoration: none;
-	}
-	nav a.active {
-		border-bottom-color: #6366f1;
-		color: #6366f1;
-	}
-	.cta-link {
-		background: #6366f1;
-		color: white !important;
+		padding: 0.4rem 0.6rem;
 		border-radius: 6px;
-		padding: 0.4em 0.9em !important;
-		border-bottom: none !important;
-		font-size: 0.9em;
-		margin-left: 0.5em;
+		transition: color 0.15s, background 0.15s;
 	}
-	.cta-link:hover {
-		background: #4f46e5;
+	.nav-link:hover {
+		color: var(--slate-900);
+		background: var(--slate-100);
+	}
+	.btn-cta {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
+		background: var(--slate-900);
+		color: white;
+		font-size: 0.875rem;
+		font-weight: 600;
+		padding: 0.45rem 1rem;
+		border-radius: 8px;
+		text-decoration: none;
+		transition: background 0.15s, transform 0.1s;
+	}
+	.btn-cta:hover {
+		background: var(--indigo-600);
+		color: white;
+	}
+	.btn-cta:active { transform: scale(0.98); }
+	@media (max-width: 480px) {
+		.brand-divider, .brand-sub { display: none; }
 	}
 </style>

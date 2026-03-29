@@ -1,59 +1,108 @@
 ---
-const today = new Date();
+const year = new Date().getFullYear();
 ---
 
 <footer>
-	<div class="footer-inner">
-		<a href="https://interpretapp.ai" class="brand">Interpret AI</a>
-		<p class="tagline">Real-time transcription & translation for everyone.</p>
-		<div class="links">
-			<a href="https://interpretapp.ai">App</a>
-			<a href="/blog">Blog</a>
-			<a href="https://interpretapp.ai/privacy">Privacy</a>
+	<div class="container">
+		<div class="top">
+			<div class="brand-col">
+				<a href="https://interpretapp.ai" class="brand">
+					<svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+						<rect width="32" height="32" rx="8" fill="url(#fg)"/>
+						<path d="M9 16a7 7 0 0 1 14 0" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+						<circle cx="16" cy="20" r="2.5" fill="white"/>
+						<defs>
+							<linearGradient id="fg" x1="0" y1="0" x2="32" y2="32">
+								<stop offset="0%" stop-color="#818cf8"/>
+								<stop offset="100%" stop-color="#4f46e5"/>
+							</linearGradient>
+						</defs>
+					</svg>
+					Interpret AI
+				</a>
+				<p>Real-time transcription &amp; translation<br/>for everyone, everywhere.</p>
+			</div>
+			<div class="links-col">
+				<span class="col-label">Product</span>
+				<a href="https://interpretapp.ai">App</a>
+				<a href="https://interpretapp.ai/#pricing">Pricing</a>
+				<a href="https://interpretapp.ai/privacy">Privacy</a>
+			</div>
+			<div class="links-col">
+				<span class="col-label">Blog</span>
+				<a href="/blog">All posts</a>
+				<a href="/rss.xml">RSS feed</a>
+			</div>
 		</div>
-		<p class="copy">&copy; {today.getFullYear()} Interpret AI. All rights reserved.</p>
+		<div class="bottom">
+			<span>&copy; {year} Interpret AI. All rights reserved.</span>
+			<span class="made">Made with care in the US</span>
+		</div>
 	</div>
 </footer>
 
 <style>
 	footer {
-		padding: 3em 1em;
-		background: #f8f9fc;
-		border-top: 1px solid #e5e7eb;
+		border-top: 1px solid var(--border);
+		background: var(--slate-50);
+		margin-top: 6rem;
 	}
-	.footer-inner {
-		max-width: 720px;
-		margin: 0 auto;
-		text-align: center;
+	.container { padding: 4rem 1.5rem 2rem; }
+	.top {
+		display: grid;
+		grid-template-columns: 2fr 1fr 1fr;
+		gap: 3rem;
+		margin-bottom: 3rem;
 	}
 	.brand {
-		font-size: 1.2em;
-		font-weight: 700;
-		color: #6366f1;
-		text-decoration: none;
-	}
-	.tagline {
-		color: #6b7280;
-		margin: 0.5em 0 1em;
-		font-size: 0.95em;
-	}
-	.links {
 		display: flex;
-		justify-content: center;
-		gap: 1.5em;
-		margin-bottom: 1.5em;
-	}
-	.links a {
-		color: #6b7280;
+		align-items: center;
+		gap: 0.5rem;
 		text-decoration: none;
-		font-size: 0.9em;
+		font-weight: 700;
+		font-size: 1rem;
+		color: var(--slate-900);
+		margin-bottom: 0.75rem;
 	}
-	.links a:hover {
-		color: #6366f1;
-	}
-	.copy {
-		color: #9ca3af;
-		font-size: 0.85em;
+	.brand:hover { color: var(--accent); }
+	.brand-col p {
+		font-size: 0.875rem;
+		color: var(--slate-500);
+		line-height: 1.6;
 		margin: 0;
+	}
+	.links-col {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+	}
+	.col-label {
+		font-size: 0.75rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--slate-400);
+		margin-bottom: 0.25rem;
+	}
+	.links-col a {
+		font-size: 0.875rem;
+		color: var(--slate-600);
+		text-decoration: none;
+		transition: color 0.15s;
+	}
+	.links-col a:hover { color: var(--accent); }
+	.bottom {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding-top: 2rem;
+		border-top: 1px solid var(--border);
+		font-size: 0.8rem;
+		color: var(--slate-400);
+	}
+	.made { font-style: italic; }
+	@media (max-width: 640px) {
+		.top { grid-template-columns: 1fr; gap: 2rem; }
+		.bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
 	}
 </style>
