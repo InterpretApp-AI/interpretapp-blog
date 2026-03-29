@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
@@ -77,6 +78,11 @@ function getTag(id: string): [string, string, string] {
 			const rt = readingTime(featured.body ?? '');
 			return (
 				<a href={`/blog/${featured.id}/`} class="featured-card">
+					{featured.data.heroImage && (
+						<div class="featured-image">
+							<Image width={560} height={315} src={featured.data.heroImage} alt="" />
+						</div>
+					)}
 					<div class="featured-inner">
 						<div class="featured-badge">
 							<span class="tag" style={`color:${tagColor};background:${tagBg}`}>{tagName}</span>
@@ -89,9 +95,6 @@ function getTag(id: string): [string, string, string] {
 							<span class="dot">·</span>
 							<span>{rt} min read</span>
 						</div>
-					</div>
-					<div class="featured-arrow" aria-hidden="true">
-						<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 					</div>
 				</a>
 			);
@@ -109,6 +112,11 @@ function getTag(id: string): [string, string, string] {
 				return (
 					<li>
 						<a href={`/blog/${post.id}/`} class="post-card">
+							{post.data.heroImage && (
+								<div class="card-image">
+									<Image width={400} height={225} src={post.data.heroImage} alt="" />
+								</div>
+							)}
 							<span class="tag" style={`color:${tagColor};background:${tagBg}`}>{tagName}</span>
 							<h4 class="card-title">{post.data.title}</h4>
 							<p class="card-desc">{post.data.description}</p>
@@ -206,12 +214,28 @@ main { padding: 3.5rem 1.5rem 2rem; }
 	background: white;
 	border: 1px solid var(--border);
 	border-radius: var(--radius-card);
-	padding: 2.25rem;
+	padding: 0;
+	overflow: hidden;
 	margin-bottom: 3rem;
 	text-decoration: none;
 	color: inherit;
 	transition: border-color 0.2s, box-shadow 0.25s, transform 0.15s;
 }
+.featured-image {
+	flex-shrink: 0;
+	width: 45%;
+	overflow: hidden;
+}
+.featured-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	transition: transform 0.3s;
+	border-radius: 0;
+}
+.featured-card:hover .featured-image img { transform: scale(1.03); }
+.featured-inner { padding: 2rem 2.25rem 2rem 0; }
 .featured-card:hover {
 	border-color: var(--blue);
 	box-shadow: var(--shadow-lg);
@@ -270,7 +294,8 @@ main { padding: 3.5rem 1.5rem 2rem; }
 	display: flex;
 	flex-direction: column;
 	height: 100%;
-	padding: 1.75rem;
+	padding: 0;
+	overflow: hidden;
 	background: white;
 	border: 1px solid var(--border);
 	border-radius: var(--radius-card);
@@ -283,6 +308,23 @@ main { padding: 3.5rem 1.5rem 2rem; }
 	box-shadow: var(--shadow);
 	transform: translateY(-2px);
 }
+.card-image {
+	width: 100%;
+	overflow: hidden;
+}
+.card-image img {
+	width: 100%;
+	height: 180px;
+	object-fit: cover;
+	display: block;
+	border-radius: 0;
+	transition: transform 0.3s;
+}
+.post-card:hover .card-image img { transform: scale(1.03); }
+.post-card .tag { margin: 1.25rem 1.5rem 0; }
+.post-card .card-title { margin-left: 1.5rem; margin-right: 1.5rem; }
+.post-card .card-desc { margin-left: 1.5rem; margin-right: 1.5rem; }
+.post-card .card-meta { margin: auto 1.5rem 1.5rem; }
 .card-title {
 	font-size: 1.05rem;
 	color: var(--black);
@@ -297,7 +339,8 @@ main { padding: 3.5rem 1.5rem 2rem; }
 @media (max-width: 580px) {
 	.post-grid { grid-template-columns: 1fr; }
 	.hero { padding: 4rem 0 3rem; }
-	.featured-card { flex-direction: column; gap: 1rem; }
-	.featured-arrow { display: none; }
+	.featured-card { flex-direction: column; gap: 0; }
+	.featured-image { width: 100%; }
+	.featured-inner { padding: 1.5rem; }
 }
 </style>
