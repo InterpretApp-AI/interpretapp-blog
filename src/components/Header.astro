@@ -1,0 +1,76 @@
+---
+import HeaderLink from './HeaderLink.astro';
+---
+
+<header>
+	<nav>
+		<a href="https://interpretapp.ai" class="brand">
+			<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+				<circle cx="12" cy="12" r="12" fill="#6366f1"/>
+				<path d="M7 12a5 5 0 0 1 10 0" stroke="white" stroke-width="2" stroke-linecap="round"/>
+				<circle cx="12" cy="15" r="2" fill="white"/>
+			</svg>
+			Interpret AI
+		</a>
+		<div class="internal-links">
+			<HeaderLink href="/blog">Blog</HeaderLink>
+			<a href="https://interpretapp.ai" class="cta-link">Back to App →</a>
+		</div>
+	</nav>
+</header>
+
+<style>
+	header {
+		margin: 0;
+		padding: 0 1.5em;
+		background: white;
+		box-shadow: 0 1px 0 rgba(0,0,0,0.08);
+	}
+	nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		max-width: 960px;
+		margin: 0 auto;
+	}
+	.brand {
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
+		font-weight: 700;
+		font-size: 1.1em;
+		color: #1e1b4b;
+		text-decoration: none;
+		padding: 1em 0;
+	}
+	.brand:hover {
+		color: #6366f1;
+	}
+	.internal-links {
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
+	}
+	nav a {
+		padding: 1em 0.5em;
+		color: #4b5563;
+		border-bottom: 2px solid transparent;
+		text-decoration: none;
+	}
+	nav a.active {
+		border-bottom-color: #6366f1;
+		color: #6366f1;
+	}
+	.cta-link {
+		background: #6366f1;
+		color: white !important;
+		border-radius: 6px;
+		padding: 0.4em 0.9em !important;
+		border-bottom: none !important;
+		font-size: 0.9em;
+		margin-left: 0.5em;
+	}
+	.cta-link:hover {
+		background: #4f46e5;
+	}
+</style>

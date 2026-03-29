@@ -1,0 +1,59 @@
+---
+const today = new Date();
+---
+
+<footer>
+	<div class="footer-inner">
+		<a href="https://interpretapp.ai" class="brand">Interpret AI</a>
+		<p class="tagline">Real-time transcription & translation for everyone.</p>
+		<div class="links">
+			<a href="https://interpretapp.ai">App</a>
+			<a href="/blog">Blog</a>
+			<a href="https://interpretapp.ai/privacy">Privacy</a>
+		</div>
+		<p class="copy">&copy; {today.getFullYear()} Interpret AI. All rights reserved.</p>
+	</div>
+</footer>
+
+<style>
+	footer {
+		padding: 3em 1em;
+		background: #f8f9fc;
+		border-top: 1px solid #e5e7eb;
+	}
+	.footer-inner {
+		max-width: 720px;
+		margin: 0 auto;
+		text-align: center;
+	}
+	.brand {
+		font-size: 1.2em;
+		font-weight: 700;
+		color: #6366f1;
+		text-decoration: none;
+	}
+	.tagline {
+		color: #6b7280;
+		margin: 0.5em 0 1em;
+		font-size: 0.95em;
+	}
+	.links {
+		display: flex;
+		justify-content: center;
+		gap: 1.5em;
+		margin-bottom: 1.5em;
+	}
+	.links a {
+		color: #6b7280;
+		text-decoration: none;
+		font-size: 0.9em;
+	}
+	.links a:hover {
+		color: #6366f1;
+	}
+	.copy {
+		color: #9ca3af;
+		font-size: 0.85em;
+		margin: 0;
+	}
+</style>
