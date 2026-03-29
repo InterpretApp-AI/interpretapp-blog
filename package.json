@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && cp -r dist/_astro dist/blog/_astro && cp -r dist/fonts dist/blog/fonts && cp dist/favicon.* dist/blog/ 2>/dev/null || true",
     "preview": "astro preview",
     "astro": "astro"
   },
