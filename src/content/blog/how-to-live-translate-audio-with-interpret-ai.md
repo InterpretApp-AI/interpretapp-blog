@@ -2,7 +2,7 @@
 title: "How to Live Translate with Interpret AI"
 description: "A step-by-step guide to real-time audio translation in 70+ languages — for travelers, students, and live event organizers."
 pubDate: "Nov 25 2024"
-updatedDate: "Nov 14 2024"
+updatedDate: "Mar 29 2026"
 author: "Joseph Liba"
 ---
 
@@ -35,8 +35,9 @@ Share your broadcast link with your audience so they can follow along in their l
 | Plan | Price | Credits | Usage |
 |---|---|---|---|
 | Free | $0 | 100/month | ~1 hour of transcription |
-| Lite | $8.99/month | 1,000 | ~16 hours |
-| Standard | $24.99/month | 3,000 | ~50 hours |
+| Lite | $7.99/month | 1,000 | ~16 hours |
+| Standard | $15.99/month | 2,000 | ~33 hours |
+| Pro | $24.99/month | 4,000 | ~66 hours |
 | Enterprise | Custom | Custom | Unlimited |
 
 ## Who Is It For?
