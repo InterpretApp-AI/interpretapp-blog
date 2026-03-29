@@ -19,7 +19,7 @@ echo "Restarting serve on port $PORT..."
 ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no root@$SERVER_IP "
   pkill -f 'serve.*$PORT\|serve.*interpretapp-blog' 2>/dev/null || true
   sleep 1
-  nohup serve -s -l $PORT ~/interpretapp-blog/dist > /tmp/blog.log 2>&1 &
+  nohup serve -l $PORT ~/interpretapp-blog/dist > /tmp/blog.log 2>&1 &
   sleep 2
   if ss -tlnp | grep -q ':$PORT'; then
     echo 'Blog deployed successfully on port $PORT'
