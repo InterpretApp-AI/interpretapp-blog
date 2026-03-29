@@ -1,6 +1,7 @@
 ---
 title: "How to Transcribe and Translate a Meeting in Real Time"
 description: "Get a live transcript with speaker labels and instant translation during any meeting — then review it with synced audio playback."
+heroImage: "../../assets/blog/hero-meeting.png"
 pubDate: "Jan 05 2026"
 author: "Joseph Liba"
 ---

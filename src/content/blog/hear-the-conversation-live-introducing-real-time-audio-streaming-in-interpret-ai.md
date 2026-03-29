@@ -1,6 +1,7 @@
 ---
 title: "Hear the Conversation Live! Introducing Real-Time Audio Streaming in Interpret AI"
 description: "Interpret AI now supports live audio streaming in its Broadcast Room — hear translated audio synchronized with real-time captions."
+heroImage: "../../assets/blog/hero-broadcast.png"
 pubDate: "Apr 10 2025"
 author: "Joseph Liba"
 ---

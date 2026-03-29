@@ -1,6 +1,7 @@
 ---
 title: "Real-Time Translation for Travelers — Understand Any Conversation Instantly"
 description: "Traveling somewhere you don't speak the language? Interpret AI translates live conversations in 70+ languages on your phone."
+heroImage: "../../assets/blog/hero-travelers.png"
 pubDate: "Feb 10 2026"
 author: "Joseph Liba"
 ---

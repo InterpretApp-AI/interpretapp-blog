@@ -1,6 +1,7 @@
 ---
 title: "How to Add Live Captions to Your Church Service"
 description: "A practical guide to providing real-time captions and translations for your congregation — making every service accessible to everyone."
+heroImage: "../../assets/blog/hero-churches.png"
 pubDate: "Mar 15 2026"
 author: "Joseph Liba"
 ---

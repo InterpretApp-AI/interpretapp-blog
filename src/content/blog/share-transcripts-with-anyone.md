@@ -1,6 +1,7 @@
 ---
 title: "Share Transcripts with Anyone — No Account Required"
 description: "Generate a public link for any transcript and share it with colleagues, clients, or your audience. They can read it without signing up."
+heroImage: "../../assets/blog/hero-business.png"
 pubDate: "Feb 15 2026"
 author: "Joseph Liba"
 ---

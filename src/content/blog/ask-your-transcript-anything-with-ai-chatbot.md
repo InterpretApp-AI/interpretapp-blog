@@ -1,6 +1,7 @@
 ---
 title: "Ask Your Transcript Anything — the Interpret AI Chatbot"
 description: "Don't re-read the whole transcript. Ask the AI chatbot to summarize it, find key moments, list action items, or answer specific questions."
+heroImage: "../../assets/blog/hero-homepage.png"
 pubDate: "Jan 10 2026"
 author: "Joseph Liba"
 ---

@@ -1,6 +1,7 @@
 ---
 title: "Interpret AI Is SOC 2 Compliant — What That Means for Your Data"
 description: "Enterprise-grade security for your transcripts. Interpret AI is SOC 2 certified, ensuring your data is handled with the highest standards."
+heroImage: "../../assets/blog/hero-soc2.png"
 pubDate: "Mar 10 2026"
 author: "Joseph Liba"
 ---

@@ -1,6 +1,7 @@
 ---
 title: "How to Broadcast Translated Captions to a Live Audience"
 description: "Set up live translated captions for your event in minutes — your audience picks their language and follows along on their phone."
+heroImage: "../../assets/blog/hero-broadcast.png"
 pubDate: "Feb 05 2026"
 author: "Joseph Liba"
 ---

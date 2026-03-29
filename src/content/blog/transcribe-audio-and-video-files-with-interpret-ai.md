@@ -1,6 +1,7 @@
 ---
 title: "Transcribe Audio and Video Files with Interpret AI"
 description: "Upload MP3, WAV, MP4, or MOV files and get accurate transcripts with speaker labels, timestamps, and translation into 70+ languages."
+heroImage: "../../assets/blog/hero-file-transcription.png"
 pubDate: "Mar 20 2026"
 author: "Joseph Liba"
 ---

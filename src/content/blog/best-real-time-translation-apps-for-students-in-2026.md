@@ -1,6 +1,7 @@
 ---
 title: "Best Real-Time Translation Apps for Students in 2026"
 description: "International students need live translation that works during lectures, not after. Here's how the top apps compare for academic use."
+heroImage: "../../assets/blog/hero-students.png"
 pubDate: "Jan 20 2026"
 author: "Joseph Liba"
 ---

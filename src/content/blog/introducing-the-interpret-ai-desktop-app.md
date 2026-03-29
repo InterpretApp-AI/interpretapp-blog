@@ -1,6 +1,7 @@
 ---
 title: "Introducing the Interpret AI Desktop App — Transcribe Anything on Your Computer"
 description: "The new standalone desktop app for Mac and Windows captures audio from any application and transcribes it in real time."
+heroImage: "../../assets/blog/hero-desktop-app.png"
 pubDate: "Feb 20 2026"
 author: "Joseph Liba"
 ---

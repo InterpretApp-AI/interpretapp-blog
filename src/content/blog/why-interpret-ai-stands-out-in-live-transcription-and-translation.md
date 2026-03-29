@@ -1,6 +1,7 @@
 ---
 title: "Why Interpret AI Stands Out in Live Transcription and Translation"
 description: "A head-to-head comparison of Interpret AI vs Otter.ai, Notta AI, and Limitless AI across six real-world use cases."
+heroImage: "../../assets/blog/hero-transcription.png"
 pubDate: "Jan 08 2025"
 author: "Joseph Liba"
 ---

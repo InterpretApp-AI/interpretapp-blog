@@ -1,6 +1,7 @@
 ---
 title: "AI Meeting Notes from Any Conversation — Summaries, Action Items, and Follow-Up Emails"
 description: "Interpret AI automatically generates structured meeting notes, action items, Q&A logs, and follow-up email drafts from your transcripts."
+heroImage: "../../assets/blog/hero-homepage.png"
 pubDate: "Mar 25 2026"
 author: "Joseph Liba"
 ---

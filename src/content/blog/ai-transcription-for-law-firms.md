@@ -1,6 +1,7 @@
 ---
 title: "AI Transcription for Law Firms — Accurate, Secure, and Searchable"
 description: "Real-time transcription with speaker identification, word-level timestamps, and SOC 2 security for legal professionals."
+heroImage: "../../assets/blog/hero-legal.png"
 pubDate: "Jan 15 2026"
 author: "Joseph Liba"
 ---
