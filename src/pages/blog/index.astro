@@ -11,29 +11,21 @@ const posts = (await getCollection('blog')).sort(
 );
 
 function readingTime(body: string) {
-	const words = body.trim().split(/\s+/).length;
-	return Math.max(1, Math.round(words / 200));
+	return Math.max(1, Math.round((body?.trim().split(/\s+/).length ?? 0) / 200));
 }
 
-const tags: Record<string, string> = {
-	'hear-the-conversation': 'Product',
-	'why-interpret-ai': 'Comparison',
-	'how-to-live-translate': 'Tutorial',
+const tags: Record<string, [string, string, string]> = {
+	'hear-the-conversation': ['Product', '#007EF3', '#D6EBFF'],
+	'why-interpret-ai':      ['Comparison', '#7977D1', '#DBDAF8'],
+	'how-to-live-translate': ['Tutorial', '#059669', '#d1fae5'],
 };
 
-function getTag(id: string) {
-	for (const [key, label] of Object.entries(tags)) {
-		if (id.includes(key)) return label;
+function getTag(id: string): [string, string, string] {
+	for (const [key, val] of Object.entries(tags)) {
+		if (id.includes(key)) return val;
 	}
-	return 'Blog';
+	return ['Blog', '#454545', '#f3f4f6'];
 }
-
-const tagColors: Record<string, string> = {
-	Product:    'tag-product',
-	Comparison: 'tag-compare',
-	Tutorial:   'tag-tutorial',
-	Blog:       'tag-default',
-};
 ---
 
 <!doctype html>
@@ -44,43 +36,72 @@ const tagColors: Record<string, string> = {
 <body>
 	<Header />
 
+	<!-- Hero -->
 	<section class="hero">
-		<div class="container">
-			<div class="hero-eyebrow">
-				<span class="dot"></span>
-				Insights &amp; Updates
+		<div class="hero-bg" aria-hidden="true"></div>
+		<div class="hero-content container">
+			<div class="hero-badge">
+				<span class="hero-dot"></span>
+				Insights & Updates
 			</div>
-			<h1>The Interpret AI Blog</h1>
+			<h1>The <span class="gradient-text">Interpret AI</span> Blog</h1>
 			<p class="hero-sub">
-				Deep dives on real-time transcription, live translation,<br class="br-hide"/>
-				and the future of accessible communication.
+				Guides, deep-dives, and product updates on real-time<br class="hide-mobile"/>
+				transcription, live translation, and accessible communication.
 			</p>
+			<a href="https://interpretapp.ai" class="hero-cta">
+				Try Interpret AI free
+				<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7h9M7.5 3.5L11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+			</a>
 		</div>
-		<div class="hero-glow" aria-hidden="true"></div>
 	</section>
 
+	<!-- Featured post -->
 	<main class="container">
-		<div class="posts-header">
-			<h2 class="section-label">All Posts</h2>
-			<span class="post-count">{posts.length} articles</span>
-		</div>
+		{posts.length > 0 && (() => {
+			const featured = posts[0];
+			const [tagName, tagColor, tagBg] = getTag(featured.id);
+			const rt = readingTime(featured.body ?? '');
+			return (
+				<a href={`/blog/${featured.id}/`} class="featured-card">
+					<div class="featured-inner">
+						<div class="featured-badge">
+							<span class="tag" style={`color:${tagColor};background:${tagBg}`}>{tagName}</span>
+							<span class="tag tag-latest">Latest</span>
+						</div>
+						<h2 class="featured-title">{featured.data.title}</h2>
+						<p class="featured-desc">{featured.data.description}</p>
+						<div class="featured-meta">
+							<FormattedDate date={featured.data.pubDate} />
+							<span class="dot">·</span>
+							<span>{rt} min read</span>
+						</div>
+					</div>
+					<div class="featured-arrow" aria-hidden="true">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+					</div>
+				</a>
+			);
+		})()}
 
+		<!-- Post grid -->
+		<div class="grid-header">
+			<h3 class="grid-label">All articles</h3>
+			<span class="grid-count">{posts.length} posts</span>
+		</div>
 		<ul class="post-grid">
-			{posts.map((post, i) => {
-				const tag = getTag(post.id);
+			{posts.map((post) => {
+				const [tagName, tagColor, tagBg] = getTag(post.id);
 				const rt = readingTime(post.body ?? '');
 				return (
-					<li class:list={['post-card', i === 0 ? 'post-card--featured' : '']}>
-						<a href={`/blog/${post.id}/`} class="card-inner">
-							<div class="card-top">
-								<span class:list={['tag', tagColors[tag]]}>{tag}</span>
-								{i === 0 && <span class="tag tag-new">Latest</span>}
-							</div>
-							<h3 class="card-title">{post.data.title}</h3>
+					<li>
+						<a href={`/blog/${post.id}/`} class="post-card">
+							<span class="tag" style={`color:${tagColor};background:${tagBg}`}>{tagName}</span>
+							<h4 class="card-title">{post.data.title}</h4>
 							<p class="card-desc">{post.data.description}</p>
 							<div class="card-meta">
 								<FormattedDate date={post.data.pubDate} />
-								<span class="meta-dot">·</span>
+								<span class="dot">·</span>
 								<span>{rt} min read</span>
 							</div>
 						</a>
@@ -99,181 +120,171 @@ const tagColors: Record<string, string> = {
 .hero {
 	position: relative;
 	overflow: hidden;
-	background: var(--slate-900);
-	padding: 6rem 0 5rem;
+	padding: 5.5rem 0 4rem;
 	text-align: center;
-	isolation: isolate;
+	background: linear-gradient(170deg, #0a1628 0%, #0d1f3c 40%, #141e33 100%);
 }
-.hero-glow {
-	position: absolute;
-	inset: 0;
+.hero-bg {
+	position: absolute; inset: 0;
 	background:
-		radial-gradient(ellipse 60% 50% at 50% 0%, rgba(99,102,241,0.35) 0%, transparent 70%),
-		radial-gradient(ellipse 40% 40% at 80% 80%, rgba(139,92,246,0.2) 0%, transparent 60%);
-	z-index: -1;
+		radial-gradient(ellipse 60% 55% at 50% -5%, rgba(0,126,243,0.35) 0%, transparent 70%),
+		radial-gradient(ellipse 35% 40% at 80% 90%, rgba(121,119,209,0.25) 0%, transparent 60%),
+		radial-gradient(ellipse 30% 30% at 10% 70%, rgba(0,126,243,0.15) 0%, transparent 60%);
 }
-.hero .container { position: relative; z-index: 1; }
-.hero-eyebrow {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.5rem;
-	font-size: 0.8rem;
-	font-weight: 600;
-	letter-spacing: 0.1em;
-	text-transform: uppercase;
-	color: var(--indigo-100);
+.hero-content { position: relative; z-index: 1; }
+.hero-badge {
+	display: inline-flex; align-items: center; gap: 0.5rem;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 0.75rem; font-weight: 700;
+	letter-spacing: 0.12em; text-transform: uppercase;
+	color: rgba(214,235,255,0.7);
 	margin-bottom: 1.5rem;
-	opacity: 0.8;
 }
-.dot {
-	width: 6px; height: 6px;
-	border-radius: 50%;
-	background: #a5b4fc;
+.hero-dot {
+	width: 7px; height: 7px; border-radius: 50%;
+	background: #007EF3;
+	box-shadow: 0 0 8px rgba(0,126,243,0.6);
 	animation: pulse 2s ease-in-out infinite;
 }
 @keyframes pulse {
-	0%, 100% { opacity: 1; transform: scale(1); }
-	50% { opacity: 0.5; transform: scale(0.8); }
+	0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(0,126,243,0.6); }
+	50% { opacity: 0.5; box-shadow: 0 0 4px rgba(0,126,243,0.3); }
 }
 .hero h1 {
 	color: white;
-	font-size: clamp(2.2rem, 6vw, 3.5rem);
-	letter-spacing: -0.03em;
+	font-size: clamp(2.2rem, 6vw, 3.4rem);
+	letter-spacing: -0.035em;
 	margin: 0 0 1rem;
 }
+.gradient-text {
+	background: linear-gradient(135deg, #3ea1ff 0%, #a5a3e8 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+}
 .hero-sub {
-	color: #94a3b8;
-	font-size: 1.1rem;
+	color: #8b9fc2;
+	font-size: 1.05rem;
 	line-height: 1.7;
 	max-width: 520px;
-	margin: 0 auto;
+	margin: 0 auto 2rem;
 }
-.br-hide { display: none; }
-@media (min-width: 640px) { .br-hide { display: inline; } }
+.hide-mobile { display: none; }
+@media (min-width: 640px) { .hide-mobile { display: inline; } }
+.hero-cta {
+	display: inline-flex; align-items: center; gap: 0.4rem;
+	background: var(--gradient);
+	color: white;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 0.9rem; font-weight: 700;
+	padding: 0.7rem 1.5rem;
+	border-radius: var(--radius-btn);
+	transition: opacity 0.15s, transform 0.1s;
+}
+.hero-cta:hover { opacity: 0.9; color: white; }
+.hero-cta:active { transform: scale(0.98); }
 
-/* ── Post grid ── */
-main { padding: 4rem 1.5rem 2rem; }
-.posts-header {
+/* ── Featured ── */
+main { padding: 3.5rem 1.5rem 2rem; }
+.featured-card {
 	display: flex;
-	align-items: baseline;
-	gap: 0.75rem;
-	margin-bottom: 2rem;
+	align-items: center;
+	gap: 2rem;
+	background: white;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-card);
+	padding: 2.25rem;
+	margin-bottom: 3rem;
+	text-decoration: none;
+	color: inherit;
+	transition: border-color 0.2s, box-shadow 0.25s, transform 0.15s;
 }
-.section-label {
-	font-size: 1rem;
+.featured-card:hover {
+	border-color: var(--blue);
+	box-shadow: var(--shadow-lg);
+	transform: translateY(-2px);
+}
+.featured-card:hover .featured-arrow { color: var(--blue); transform: translateX(4px); }
+.featured-inner { flex: 1; }
+.featured-badge { display: flex; gap: 0.4rem; margin-bottom: 0.85rem; }
+.featured-title {
+	font-size: 1.5rem;
+	color: var(--black);
+	line-height: 1.3;
+	margin: 0 0 0.6rem;
+}
+.featured-desc { font-size: 0.95rem; color: var(--gray-3); margin: 0 0 1rem; line-height: 1.6; }
+.featured-meta { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: var(--gray-2); font-weight: 500; }
+.featured-arrow {
+	flex-shrink: 0;
+	color: var(--gray-1);
+	transition: color 0.2s, transform 0.2s;
+}
+
+/* ── Tags ── */
+.tag {
+	display: inline-block;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 0.68rem;
 	font-weight: 700;
-	color: var(--slate-900);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	padding: 0.25em 0.75em;
+	border-radius: 99px;
+}
+.tag-latest { background: #fef3c7; color: #92400e; }
+.dot { color: var(--gray-1); }
+
+/* ── Grid ── */
+.grid-header {
+	display: flex; align-items: baseline; gap: 0.75rem;
+	margin-bottom: 1.5rem;
+}
+.grid-label {
+	font-size: 0.9rem;
+	font-weight: 700;
+	color: var(--black);
 	margin: 0;
-	letter-spacing: -0.01em;
 }
-.post-count {
-	font-size: 0.8rem;
-	color: var(--slate-400);
-	font-weight: 500;
-}
+.grid-count { font-size: 0.78rem; color: var(--gray-2); font-weight: 500; }
 .post-grid {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	gap: 1.25rem;
-	list-style: none;
-	margin: 0;
-	padding: 0;
+	list-style: none; margin: 0; padding: 0;
 }
-.post-card--featured {
-	grid-column: 1 / -1;
-}
-
-/* ── Card ── */
-.card-inner {
+.post-card {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
 	padding: 1.75rem;
 	background: white;
 	border: 1px solid var(--border);
-	border-radius: var(--radius);
+	border-radius: var(--radius-card);
 	text-decoration: none;
-	transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
 	color: inherit;
+	transition: border-color 0.2s, box-shadow 0.25s, transform 0.15s;
 }
-.card-inner:hover {
-	border-color: var(--indigo-500);
+.post-card:hover {
+	border-color: var(--blue);
 	box-shadow: var(--shadow);
 	transform: translateY(-2px);
 }
-.post-card--featured .card-inner {
-	flex-direction: row;
-	align-items: flex-start;
-	gap: 3rem;
-	background: linear-gradient(135deg, var(--slate-900) 0%, #1e1b4b 100%);
-	border-color: transparent;
-	padding: 2.5rem;
-}
-.post-card--featured .card-title { color: white; font-size: 1.65rem; }
-.post-card--featured .card-desc  { color: #94a3b8; }
-.post-card--featured .card-meta  { color: #64748b; }
-.post-card--featured .card-top   { margin-bottom: 1rem; }
-.post-card--featured .card-inner:hover {
-	border-color: transparent;
-	box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-}
-.card-top {
-	display: flex;
-	gap: 0.4rem;
-	margin-bottom: 0.85rem;
-}
-.post-card--featured .card-body { flex: 1; }
-
-/* Tags */
-.tag {
-	display: inline-block;
-	font-size: 0.72rem;
-	font-weight: 700;
-	letter-spacing: 0.06em;
-	text-transform: uppercase;
-	padding: 0.25em 0.7em;
-	border-radius: 99px;
-}
-.tag-product  { background: #ede9fe; color: #5b21b6; }
-.tag-compare  { background: #fce7f3; color: #9d174d; }
-.tag-tutorial { background: #d1fae5; color: #065f46; }
-.tag-default  { background: var(--slate-100); color: var(--slate-600); }
-.tag-new      { background: #fef9c3; color: #854d0e; }
-
 .card-title {
 	font-size: 1.05rem;
-	font-weight: 700;
-	color: var(--slate-900);
+	color: var(--black);
 	line-height: 1.35;
-	margin: 0 0 0.6rem;
-	letter-spacing: -0.01em;
+	margin: 0.85rem 0 0.6rem;
 	flex: 1;
 }
-.card-desc {
-	font-size: 0.875rem;
-	color: var(--slate-500);
-	line-height: 1.6;
-	margin: 0 0 1.25rem;
-	flex: 1;
-}
-.card-meta {
-	display: flex;
-	align-items: center;
-	gap: 0.4rem;
-	font-size: 0.8rem;
-	color: var(--slate-400);
-	font-weight: 500;
-	margin-top: auto;
-}
-.meta-dot { color: var(--slate-300); }
+.card-desc { font-size: 0.85rem; color: var(--gray-3); line-height: 1.6; margin: 0 0 1rem; flex: 1; }
+.card-meta { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: var(--gray-2); font-weight: 500; margin-top: auto; }
 
-@media (max-width: 900px) {
-	.post-grid { grid-template-columns: repeat(2, 1fr); }
-	.post-card--featured { grid-column: 1 / -1; }
-	.post-card--featured .card-inner { flex-direction: column; gap: 0; }
-}
+@media (max-width: 900px) { .post-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 580px) {
 	.post-grid { grid-template-columns: 1fr; }
-	.hero { padding: 4rem 0 3.5rem; }
+	.hero { padding: 4rem 0 3rem; }
+	.featured-card { flex-direction: column; gap: 1rem; }
+	.featured-arrow { display: none; }
 }
 </style>

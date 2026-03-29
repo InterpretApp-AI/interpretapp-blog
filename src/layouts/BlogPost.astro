@@ -11,8 +11,7 @@ type Props = CollectionEntry<'blog'>['data'] & { body?: string };
 const { title, description, pubDate, updatedDate, heroImage, body } = Astro.props;
 
 function readingTime(text: string) {
-	const words = text?.trim().split(/\s+/).length ?? 0;
-	return Math.max(1, Math.round(words / 200));
+	return Math.max(1, Math.round((text?.trim().split(/\s+/).length ?? 0) / 200));
 }
 const rt = readingTime(body ?? '');
 ---
@@ -25,23 +24,32 @@ const rt = readingTime(body ?? '');
 	<Header />
 
 	<article>
-		<!-- Post hero -->
 		<div class="post-hero">
-			<div class="post-hero-glow" aria-hidden="true"></div>
-			<div class="container--narrow">
+			<div class="post-hero-bg" aria-hidden="true"></div>
+			<div class="container--narrow post-hero-inner">
 				<div class="post-meta">
 					<FormattedDate date={pubDate} />
-					<span class="meta-sep">·</span>
+					<span class="sep">·</span>
 					<span>{rt} min read</span>
 					{updatedDate && (
-						<span class="meta-sep">·</span>
-						<span class="updated">Updated <FormattedDate date={updatedDate} /></span>
+						<>
+							<span class="sep">·</span>
+							<span>Updated <FormattedDate date={updatedDate} /></span>
+						</>
 					)}
 				</div>
 				<h1>{title}</h1>
 				<p class="post-desc">{description}</p>
 				<div class="author">
-					<div class="author-avatar" aria-hidden="true">J</div>
+					<div class="avatar" aria-hidden="true">
+						<svg width="18" height="16" viewBox="0 0 54 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M4.8237 47.406H1.9467C1.31113 47.406 0.795898 46.8908 0.795898 46.2552V24.3901C0.795898 23.7545 1.31113 23.2393 1.9467 23.2393H4.8237C5.45927 23.2393 5.9745 23.7545 5.9745 24.3901V46.2552C5.9745 46.8908 5.45927 47.406 4.8237 47.406Z" fill="white"/>
+							<path d="M16.3317 47.406H13.7424C13.1068 47.406 12.5916 46.8908 12.5916 46.2552V24.3901C12.5916 23.7545 13.1068 23.2393 13.7424 23.2393H16.3317C16.9673 23.2393 17.4825 23.7545 17.4825 24.3901V27.8425C19.3238 24.3901 23.2365 23.2393 25.2504 23.2393C32.1552 23.2393 34.4568 28.7056 34.4568 31.5826V46.2552C34.4568 46.8908 33.9416 47.406 33.306 47.406H30.429C29.7934 47.406 29.2782 46.8908 29.2782 46.2552V35.6104C29.2782 32.7334 28.9905 28.1302 24.0996 27.8425C19.0396 27.5448 17.5784 31.5826 17.4825 33.5965V46.2552C17.4825 46.8908 16.9673 47.406 16.3317 47.406Z" fill="white"/>
+							<path d="M39.6354 26.6917V24.3901C39.6354 23.7545 40.1506 23.2393 40.7862 23.2393H52.5819C53.2174 23.2393 53.7327 23.7545 53.7327 24.3901V26.6917C53.7327 27.3272 53.2174 27.8425 52.5819 27.8425H40.7862C40.1506 27.8425 39.6354 27.3272 39.6354 26.6917Z" fill="white"/>
+							<path d="M42.2246 41.6521V27.2671H46.8092V41.0767C46.8092 42.3478 47.8397 43.3783 49.1108 43.3783H52.0064C52.9598 43.3783 53.7326 44.1511 53.7326 45.1045V45.6799C53.7326 46.6332 52.9598 47.4061 52.0064 47.4061H47.9786C44.8008 47.4061 42.2246 44.8299 42.2246 41.6521Z" fill="white"/>
+							<path d="M46.8264 23.2393C46.8264 17.3853 44.5958 11.7513 40.5886 7.48394C36.5813 3.21654 31.0985 0.636443 25.2561 0.268747C19.4137 -0.0989491 13.6507 1.77339 9.14007 5.5047C4.92568 8.99092 2.1004 13.8551 1.14882 19.2159C1.03774 19.8417 1.48724 20.4183 2.11779 20.4979L4.02727 20.7392C4.65782 20.8189 5.23001 20.3713 5.34813 19.7468C6.16031 15.4526 8.44792 11.5621 11.8339 8.76118C15.5163 5.71502 20.2211 4.18648 24.9907 4.48666C29.7603 4.78684 34.2363 6.89317 37.5077 10.377C40.7792 13.8608 42.6002 18.4602 42.6002 23.2393H46.8264Z" fill="white"/>
+						</svg>
+					</div>
 					<div>
 						<div class="author-name">Joseph Liba</div>
 						<div class="author-role">Founder, Interpret AI</div>
@@ -50,14 +58,12 @@ const rt = readingTime(body ?? '');
 			</div>
 		</div>
 
-		<!-- Hero image -->
 		{heroImage && (
 			<div class="hero-image container--narrow">
 				<Image width={960} height={480} src={heroImage} alt="" />
 			</div>
 		)}
 
-		<!-- Body -->
 		<div class="post-body container--narrow">
 			<div class="prose">
 				<slot />
@@ -65,31 +71,15 @@ const rt = readingTime(body ?? '');
 
 			<!-- CTA -->
 			<div class="post-cta">
-				<div class="cta-icon" aria-hidden="true">
-					<svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-						<rect width="32" height="32" rx="8" fill="url(#pc)"/>
-						<path d="M9 16a7 7 0 0 1 14 0" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-						<circle cx="16" cy="20" r="2.5" fill="white"/>
-						<defs>
-							<linearGradient id="pc" x1="0" y1="0" x2="32" y2="32">
-								<stop offset="0%" stop-color="#818cf8"/>
-								<stop offset="100%" stop-color="#4f46e5"/>
-							</linearGradient>
-						</defs>
-					</svg>
+				<div class="cta-content">
+					<div class="cta-heading">Try Interpret AI for free</div>
+					<div class="cta-sub">Real-time transcription &amp; translation in 70+ languages. 100 free credits to start.</div>
 				</div>
-				<div class="cta-body">
-					<div class="cta-title">Try Interpret AI for free</div>
-					<div class="cta-sub">Real-time transcription &amp; translation in 70+ languages. 100 free credits, no card required.</div>
-				</div>
-				<a href="https://interpretapp.ai" class="cta-btn">Get started →</a>
+				<a href="https://interpretapp.ai" class="cta-btn">Get started free →</a>
 			</div>
 
-			<!-- Back link -->
 			<a href="/blog" class="back-link">
-				<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-					<path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-				</svg>
+				<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
 				Back to all posts
 			</a>
 		</div>
@@ -104,125 +94,102 @@ const rt = readingTime(body ?? '');
 .post-hero {
 	position: relative;
 	overflow: hidden;
-	background: var(--slate-900);
-	padding: 5rem 0 4rem;
-	isolation: isolate;
+	background: linear-gradient(170deg, #0a1628 0%, #0d1f3c 40%, #141e33 100%);
+	padding: 4.5rem 0 3.5rem;
 }
-.post-hero-glow {
-	position: absolute;
-	inset: 0;
-	background: radial-gradient(ellipse 70% 80% at 50% -10%, rgba(99,102,241,0.3) 0%, transparent 70%);
-	z-index: -1;
+.post-hero-bg {
+	position: absolute; inset: 0;
+	background: radial-gradient(ellipse 70% 70% at 50% -10%, rgba(0,126,243,0.3) 0%, transparent 70%);
 }
-.post-hero .container--narrow { position: relative; z-index: 1; }
+.post-hero-inner { position: relative; z-index: 1; }
 .post-meta {
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
-	font-size: 0.85rem;
-	font-weight: 500;
-	color: #64748b;
+	display: flex; align-items: center; gap: 0.5rem;
+	font-size: 0.85rem; font-weight: 500; color: #5b7898;
 	margin-bottom: 1.25rem;
 }
-.meta-sep { color: #334155; }
-.updated { font-style: italic; }
+.sep { color: #2d3f54; }
 .post-hero h1 {
 	color: white;
-	font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+	font-size: clamp(1.7rem, 4.5vw, 2.6rem);
 	letter-spacing: -0.03em;
-	line-height: 1.15;
+	line-height: 1.2;
 	margin: 0 0 1rem;
 }
 .post-desc {
-	color: #94a3b8;
-	font-size: 1.1rem;
+	color: #8b9fc2;
+	font-size: 1.05rem;
 	line-height: 1.65;
 	margin: 0 0 2rem;
 	max-width: 600px;
 }
-.author {
-	display: flex;
-	align-items: center;
-	gap: 0.75rem;
-}
-.author-avatar {
-	width: 38px;
-	height: 38px;
-	border-radius: 50%;
-	background: linear-gradient(135deg, #818cf8, #4f46e5);
-	color: white;
-	font-size: 0.9rem;
-	font-weight: 700;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+.author { display: flex; align-items: center; gap: 0.75rem; }
+.avatar {
+	width: 38px; height: 38px; border-radius: 50%;
+	background: var(--gradient);
+	display: flex; align-items: center; justify-content: center;
 	flex-shrink: 0;
 }
-.author-name  { font-size: 0.875rem; font-weight: 600; color: #e2e8f0; }
-.author-role  { font-size: 0.775rem; color: #64748b; }
+.author-name { font-size: 0.875rem; font-weight: 600; color: #cbd5e1; }
+.author-role { font-size: 0.775rem; color: #5b7898; }
 
 /* ── Hero image ── */
-.hero-image {
-	margin: 0 auto;
-	padding: 0 1.5rem;
-}
-.hero-image img {
-	width: 100%;
-	height: auto;
-	border-radius: 0 0 var(--radius) var(--radius);
-	display: block;
-}
+.hero-image { margin: 0 auto; padding: 0 1.5rem; }
+.hero-image img { width: 100%; border-radius: 0 0 var(--radius-card) var(--radius-card); display: block; }
 
 /* ── Post body ── */
-.post-body {
-	padding: 3.5rem 1.5rem 2rem;
-}
+.post-body { padding: 3rem 1.5rem 2rem; }
 
-/* ── CTA block ── */
+/* ── CTA ── */
 .post-cta {
 	display: flex;
 	align-items: center;
-	gap: 1.5rem;
-	background: linear-gradient(135deg, var(--slate-900) 0%, #1e1b4b 100%);
-	border-radius: var(--radius);
-	padding: 2rem;
+	gap: 2rem;
+	background: white;
+	border: 2px solid var(--border);
+	border-radius: var(--radius-card);
+	padding: 2rem 2.25rem;
 	margin: 3.5rem 0 2rem;
+	transition: border-color 0.2s, box-shadow 0.2s;
 }
-.cta-icon { flex-shrink: 0; }
-.cta-body { flex: 1; }
-.cta-title { font-size: 1rem; font-weight: 700; color: white; margin-bottom: 0.25rem; }
-.cta-sub   { font-size: 0.85rem; color: #94a3b8; line-height: 1.5; }
+.post-cta:hover {
+	border-color: var(--blue);
+	box-shadow: var(--shadow);
+}
+.cta-content { flex: 1; }
+.cta-heading {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 1.1rem;
+	font-weight: 800;
+	color: var(--black);
+	margin-bottom: 0.3rem;
+}
+.cta-sub { font-size: 0.85rem; color: var(--gray-3); line-height: 1.5; }
 .cta-btn {
 	flex-shrink: 0;
-	background: var(--indigo-500);
+	background: var(--gradient);
 	color: white;
-	font-size: 0.875rem;
-	font-weight: 600;
-	padding: 0.6rem 1.25rem;
-	border-radius: 8px;
-	text-decoration: none;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 0.85rem;
+	font-weight: 700;
+	padding: 0.65rem 1.3rem;
+	border-radius: var(--radius-btn);
 	white-space: nowrap;
-	transition: background 0.15s;
+	transition: opacity 0.15s;
 }
-.cta-btn:hover { background: var(--indigo-600); color: white; }
+.cta-btn:hover { opacity: 0.9; color: white; }
 
 /* ── Back link ── */
 .back-link {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.35rem;
-	font-size: 0.875rem;
-	font-weight: 500;
-	color: var(--slate-500);
-	text-decoration: none;
-	margin-top: 1rem;
-	padding: 0.4rem 0;
+	display: inline-flex; align-items: center; gap: 0.3rem;
+	font-size: 0.875rem; font-weight: 500;
+	color: var(--gray-3);
+	margin-top: 1rem; padding: 0.4rem 0;
 	transition: color 0.15s;
 }
-.back-link:hover { color: var(--slate-900); }
+.back-link:hover { color: var(--blue); }
 
 @media (max-width: 640px) {
-	.post-hero { padding: 3.5rem 0 3rem; }
+	.post-hero { padding: 3rem 0 2.5rem; }
 	.post-cta { flex-direction: column; align-items: flex-start; gap: 1rem; }
 	.cta-btn { width: 100%; text-align: center; }
 }

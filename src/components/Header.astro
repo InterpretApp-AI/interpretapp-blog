@@ -1,127 +1,112 @@
 ---
 const pathname = Astro.url.pathname;
-const isPost = pathname.split('/').filter(Boolean).length > 2;
+const isPost = pathname.replace(/\/$/, '').split('/').filter(Boolean).length > 2;
 ---
 
 <header>
 	<div class="container">
-		<a href="https://interpretapp.ai" class="brand" aria-label="Interpret AI home">
-			<svg class="logo" width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-				<rect width="32" height="32" rx="8" fill="url(#grad)"/>
-				<path d="M9 16a7 7 0 0 1 14 0" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-				<circle cx="16" cy="20" r="2.5" fill="white"/>
+		<a href="https://interpretapp.ai" class="brand" aria-label="Interpret AI">
+			<svg width="32" height="28" viewBox="0 0 54 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+				<path d="M4.8237 47.406H1.9467C1.31113 47.406 0.795898 46.8908 0.795898 46.2552V24.3901C0.795898 23.7545 1.31113 23.2393 1.9467 23.2393H4.8237C5.45927 23.2393 5.9745 23.7545 5.9745 24.3901V46.2552C5.9745 46.8908 5.45927 47.406 4.8237 47.406Z" fill="url(#hg0)"/>
+				<path d="M16.3317 47.406H13.7424C13.1068 47.406 12.5916 46.8908 12.5916 46.2552V24.3901C12.5916 23.7545 13.1068 23.2393 13.7424 23.2393H16.3317C16.9673 23.2393 17.4825 23.7545 17.4825 24.3901V27.8425C19.3238 24.3901 23.2365 23.2393 25.2504 23.2393C32.1552 23.2393 34.4568 28.7056 34.4568 31.5826V46.2552C34.4568 46.8908 33.9416 47.406 33.306 47.406H30.429C29.7934 47.406 29.2782 46.8908 29.2782 46.2552V35.6104C29.2782 32.7334 28.9905 28.1302 24.0996 27.8425C19.0396 27.5448 17.5784 31.5826 17.4825 33.5965V46.2552C17.4825 46.8908 16.9673 47.406 16.3317 47.406Z" fill="url(#hg1)"/>
+				<path d="M39.6354 26.6917V24.3901C39.6354 23.7545 40.1506 23.2393 40.7862 23.2393H52.5819C53.2174 23.2393 53.7327 23.7545 53.7327 24.3901V26.6917C53.7327 27.3272 53.2174 27.8425 52.5819 27.8425H40.7862C40.1506 27.8425 39.6354 27.3272 39.6354 26.6917Z" fill="url(#hg2)"/>
+				<path d="M42.2246 41.6521V27.2671H46.8092V41.0767C46.8092 42.3478 47.8397 43.3783 49.1108 43.3783H52.0064C52.9598 43.3783 53.7326 44.1511 53.7326 45.1045V45.6799C53.7326 46.6332 52.9598 47.4061 52.0064 47.4061H47.9786C44.8008 47.4061 42.2246 44.8299 42.2246 41.6521Z" fill="url(#hg3)"/>
+				<path d="M46.8264 23.2393C46.8264 17.3853 44.5958 11.7513 40.5886 7.48394C36.5813 3.21654 31.0985 0.636443 25.2561 0.268747C19.4137 -0.0989491 13.6507 1.77339 9.14007 5.5047C4.92568 8.99092 2.1004 13.8551 1.14882 19.2159C1.03774 19.8417 1.48724 20.4183 2.11779 20.4979L4.02727 20.7392C4.65782 20.8189 5.23001 20.3713 5.34813 19.7468C6.16031 15.4526 8.44792 11.5621 11.8339 8.76118C15.5163 5.71502 20.2211 4.18648 24.9907 4.48666C29.7603 4.78684 34.2363 6.89317 37.5077 10.377C40.7792 13.8608 42.6002 18.4602 42.6002 23.2393H46.8264Z" fill="url(#hg4)"/>
 				<defs>
-					<linearGradient id="grad" x1="0" y1="0" x2="32" y2="32">
-						<stop offset="0%" stop-color="#818cf8"/>
-						<stop offset="100%" stop-color="#4f46e5"/>
-					</linearGradient>
+					<linearGradient id="hg0" x1="0.813033" y1="23.2393" x2="52.8421" y2="49.1593" gradientUnits="userSpaceOnUse"><stop stop-color="#007EF3"/><stop offset="1" stop-color="#7977D1"/></linearGradient>
+					<linearGradient id="hg1" x1="0.813033" y1="23.2393" x2="52.8421" y2="49.1593" gradientUnits="userSpaceOnUse"><stop stop-color="#007EF3"/><stop offset="1" stop-color="#7977D1"/></linearGradient>
+					<linearGradient id="hg2" x1="0.813033" y1="23.2393" x2="52.8421" y2="49.1593" gradientUnits="userSpaceOnUse"><stop stop-color="#007EF3"/><stop offset="1" stop-color="#7977D1"/></linearGradient>
+					<linearGradient id="hg3" x1="42.2283" y1="27.2671" x2="56.1117" y2="29.0714" gradientUnits="userSpaceOnUse"><stop stop-color="#007EF3"/><stop offset="1" stop-color="#7977D1"/></linearGradient>
+					<linearGradient id="hg4" x1="0.990915" y1="0.223265" x2="47.6597" y2="21.3674" gradientUnits="userSpaceOnUse"><stop stop-color="#007EF3"/><stop offset="1" stop-color="#7977D1"/></linearGradient>
 				</defs>
 			</svg>
-			<span class="brand-text">Interpret AI</span>
-			<span class="brand-divider">/</span>
-			<span class="brand-sub">Blog</span>
+			<span class="brand-name">Interpret AI</span>
+			<span class="brand-sep">/</span>
+			<span class="brand-blog">Blog</span>
 		</a>
 
 		<nav>
 			{isPost && (
-				<a href="/blog" class="nav-link back">
-					<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-						<path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-					</svg>
+				<a href="/blog" class="back-link">
+					<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
 					All posts
 				</a>
 			)}
-			<a href="https://interpretapp.ai" class="btn-cta">
-				Try for free
-				<svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-					<path d="M2.5 7h9M7.5 3.5L11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-				</svg>
+			<a href="https://interpretapp.ai" class="btn-primary">
+				Get started free
 			</a>
 		</nav>
 	</div>
 </header>
 
 <style>
-	header {
-		position: sticky;
-		top: 0;
-		z-index: 100;
-		background: rgba(255, 255, 255, 0.85);
-		backdrop-filter: blur(12px);
-		-webkit-backdrop-filter: blur(12px);
-		border-bottom: 1px solid var(--border);
-	}
-	.container {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		height: 60px;
-	}
-	.brand {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		text-decoration: none;
-		color: var(--slate-900);
-	}
-	.logo { flex-shrink: 0; }
-	.brand-text {
-		font-weight: 700;
-		font-size: 0.95rem;
-		letter-spacing: -0.01em;
-		color: var(--slate-900);
-	}
-	.brand-divider {
-		color: var(--slate-400);
-		font-weight: 300;
-		font-size: 1.1rem;
-		margin: 0 0.1rem;
-	}
-	.brand-sub {
-		font-size: 0.95rem;
-		font-weight: 500;
-		color: var(--slate-500);
-	}
-	nav {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-	}
-	.nav-link {
-		display: flex;
-		align-items: center;
-		gap: 0.3rem;
-		font-size: 0.875rem;
-		font-weight: 500;
-		color: var(--slate-500);
-		text-decoration: none;
-		padding: 0.4rem 0.6rem;
-		border-radius: 6px;
-		transition: color 0.15s, background 0.15s;
-	}
-	.nav-link:hover {
-		color: var(--slate-900);
-		background: var(--slate-100);
-	}
-	.btn-cta {
-		display: flex;
-		align-items: center;
-		gap: 0.35rem;
-		background: var(--slate-900);
-		color: white;
-		font-size: 0.875rem;
-		font-weight: 600;
-		padding: 0.45rem 1rem;
-		border-radius: 8px;
-		text-decoration: none;
-		transition: background 0.15s, transform 0.1s;
-	}
-	.btn-cta:hover {
-		background: var(--indigo-600);
-		color: white;
-	}
-	.btn-cta:active { transform: scale(0.98); }
-	@media (max-width: 480px) {
-		.brand-divider, .brand-sub { display: none; }
-	}
+header {
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	background: rgba(248, 249, 255, 0.9);
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+	border-bottom: 1px solid var(--border);
+}
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 64px;
+}
+.brand {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	text-decoration: none;
+}
+.brand-name {
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 800;
+	font-size: 1rem;
+	color: var(--black);
+	letter-spacing: -0.01em;
+}
+.brand-sep {
+	color: var(--gray-1);
+	font-weight: 300;
+	font-size: 1.1rem;
+}
+.brand-blog {
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 600;
+	font-size: 0.95rem;
+	color: var(--gray-2);
+}
+nav { display: flex; align-items: center; gap: 0.75rem; }
+.back-link {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: var(--gray-3);
+	padding: 0.4rem 0.6rem;
+	border-radius: 8px;
+	transition: all 0.15s;
+}
+.back-link:hover { color: var(--blue); background: var(--blue-light); }
+.btn-primary {
+	background: var(--gradient);
+	color: white;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 0.85rem;
+	font-weight: 700;
+	padding: 0.5rem 1.1rem;
+	border-radius: var(--radius-btn);
+	text-decoration: none;
+	transition: opacity 0.15s, transform 0.1s;
+	white-space: nowrap;
+}
+.btn-primary:hover { opacity: 0.9; color: white; }
+.btn-primary:active { transform: scale(0.98); }
+@media (max-width: 480px) {
+	.brand-sep, .brand-blog { display: none; }
+}
 </style>
