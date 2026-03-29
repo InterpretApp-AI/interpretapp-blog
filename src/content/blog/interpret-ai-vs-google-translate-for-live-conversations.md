@@ -1,7 +1,7 @@
 ---
 title: "Interpret AI vs Google Translate for Live Conversations"
 description: "Google Translate handles text. Interpret AI handles live speech. Here's how they compare for real-time conversation translation."
-heroImage: "../../assets/blog/hero-transcription.png"
+heroImage: "../../assets/blog/hero-vs-google.png"
 pubDate: "Mar 01 2026"
 author: "Joseph Liba"
 ---

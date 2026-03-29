@@ -1,7 +1,7 @@
 ---
 title: "How to Live Translate with Interpret AI"
 description: "A step-by-step guide to real-time audio translation in 70+ languages — for travelers, students, and live event organizers."
-heroImage: "../../assets/blog/hero-translation.png"
+heroImage: "../../assets/blog/hero-live-translation.png"
 pubDate: "Nov 25 2024"
 updatedDate: "Mar 29 2026"
 author: "Joseph Liba"
