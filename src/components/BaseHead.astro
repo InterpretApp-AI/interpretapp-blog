@@ -32,8 +32,8 @@ const { title, description, image = FallbackImage } = Astro.props;
 <meta name="generator" content={Astro.generator} />
 
 <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9KLMT3YWLY"></script>
-<script>
+<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-9KLMT3YWLY"></script>
+<script is:inline>
 	window.dataLayer = window.dataLayer || [];
 	function gtag(){dataLayer.push(arguments);}
 	gtag('js', new Date());
